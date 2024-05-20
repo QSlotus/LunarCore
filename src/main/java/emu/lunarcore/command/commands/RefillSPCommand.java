@@ -5,7 +5,7 @@ import emu.lunarcore.game.player.lineup.PlayerLineup;
 import emu.lunarcore.command.CommandArgs;
 import emu.lunarcore.command.CommandHandler;
 
-@Command(label = "energy", permission = "player.energy", requireTarget = true, desc = "/energy. Refills all characters energy in current lineup.")
+@Command(label = "energy", permission = "player.energy", requireTarget = true, desc = "/energy. 恢复你队伍角色的能量。")
 public class RefillSPCommand implements CommandHandler {
 
     @Override
@@ -17,7 +17,7 @@ public class RefillSPCommand implements CommandHandler {
         });
         lineup.refreshLineup();
         
-        args.sendMessage("Refilled SP for " + args.getTarget().getName());
+        args.sendMessage("已为 " + args.getTarget().getName() + " 恢复了能量。");
     }
 
 }

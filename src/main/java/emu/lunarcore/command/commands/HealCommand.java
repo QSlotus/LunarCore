@@ -5,7 +5,7 @@ import emu.lunarcore.command.CommandArgs;
 import emu.lunarcore.command.CommandHandler;
 import emu.lunarcore.game.player.lineup.PlayerLineup;
 
-@Command(label = "heal", permission = "player.heal", requireTarget = true, desc = "/heal. Heals your avatars.")
+@Command(label = "heal", permission = "player.heal", requireTarget = true, desc = "/heal. 治疗你的角色。")
 public class HealCommand implements CommandHandler {
 
     @Override
@@ -17,7 +17,7 @@ public class HealCommand implements CommandHandler {
         });
         lineup.refreshLineup();
 
-        args.sendMessage("Healed all avatars for " + args.getTarget().getName());
+        args.sendMessage("已经为 " + args.getTarget().getName() + " 的角色回满血。");
     }
 
 }

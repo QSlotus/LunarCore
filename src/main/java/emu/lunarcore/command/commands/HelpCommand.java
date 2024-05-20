@@ -5,7 +5,7 @@ import emu.lunarcore.command.Command;
 import emu.lunarcore.command.CommandArgs;
 import emu.lunarcore.command.CommandHandler;
 
-@Command(label = "help", permission = "player.help", desc = "/help. Displays a list of available commands.")
+@Command(label = "help", permission = "player.help", desc = "/help. 展示所有当前可用指令。")
 public class HelpCommand implements CommandHandler {
 
     @Override

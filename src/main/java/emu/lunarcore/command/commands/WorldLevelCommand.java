@@ -5,7 +5,7 @@ import emu.lunarcore.command.CommandArgs;
 import emu.lunarcore.command.CommandHandler;
 import emu.lunarcore.util.Utils;
 
-@Command(label = "worldlevel", aliases = {"wl"}, permission = "player.worldlevel", requireTarget = true, desc = "/worldlevel [world level]. Sets the targeted player's equilibrium level.")
+@Command(label = "worldlevel", aliases = {"wl"}, permission = "player.worldlevel", requireTarget = true, desc = "/worldlevel [均衡等级]. 设置玩家的均衡等级。")
 public class WorldLevelCommand implements CommandHandler {
 
     @Override
@@ -17,7 +17,7 @@ public class WorldLevelCommand implements CommandHandler {
         args.getTarget().setWorldLevel(level);
         
         // Done
-        args.sendMessage("Set world level to " + level);
+        args.sendMessage("已将均衡等级修改为 " + level + "级。");
     }
 
 }

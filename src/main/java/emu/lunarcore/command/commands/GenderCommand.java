@@ -8,7 +8,7 @@ import emu.lunarcore.game.player.Player;
 import emu.lunarcore.game.player.PlayerGender;
 import emu.lunarcore.server.packet.send.PacketGetHeroBasicTypeInfoScRsp;
 
-@Command(label = "gender", permission = "player.gender", requireTarget = true, desc = "/gender {male | female}. Sets the player gender.")
+@Command(label = "gender", permission = "player.gender", requireTarget = true, desc = "/gender {male | female}. 设置主角的性别。")
 public class GenderCommand implements CommandHandler {
 
     @Override

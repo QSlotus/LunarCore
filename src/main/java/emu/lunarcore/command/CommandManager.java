@@ -131,7 +131,7 @@ public class CommandManager {
             // Check if sender has permission to run the command.
             if (sender != null && !this.checkPermission(sender, command)) {
                 // We have a double null check here just in case
-                sender.sendMessage("You do not have permission to use this command.");
+                sender.sendMessage("你没有权限使用此指令。");
                 return;
             }
             
@@ -140,7 +140,7 @@ public class CommandManager {
             
             // Check targeted permission
             if (sender != cmdArgs.getTarget() && !this.checkTargetPermission(sender, command)) {
-                cmdArgs.sendMessage("You do not have permission to use this command on another player.");
+                cmdArgs.sendMessage("你没有权限向另一名玩家使用此指令。");
                 return;
             }
             
@@ -152,7 +152,7 @@ public class CommandManager {
             
             // Log
             if (sender != null && LunarCore.getConfig().getLogOptions().commands) {
-                LunarCore.getLogger().info("[UID: " + sender.getUid() + "] " + sender.getName() + " used command: " + message);
+                LunarCore.getLogger().info("[UID: " + sender.getUid() + "] " + sender.getName() + " 使用了指令: " + message);
             }
             
             // Run command

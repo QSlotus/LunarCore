@@ -11,7 +11,7 @@ public class RefillMPCommand implements CommandHandler {
     @Override
     public void execute(CommandArgs args) {
         args.getTarget().getCurrentLineup().addMp(GameConstants.MAX_MP);
-        args.sendMessage("已经为 " + args.getTarget().getName() + "补充了所有秘技点。");
+        args.sendMessage("已经为 " + args.getTarget().getName() + " 补充了所有秘技点。");
     }
 
 }

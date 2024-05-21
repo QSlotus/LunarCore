@@ -56,7 +56,7 @@ public class LineupCommand implements CommandHandler {
             lineup.refreshLineup();
             target.getScene().syncLineup();
             
-            args.sendMessage("Set the lineup of " + target.getName() + " successfully");
+            args.sendMessage("设置 " + target.getName() + " 的角色编队成功。");
         } else {
             args.sendMessage("No avatars could be added");
         }

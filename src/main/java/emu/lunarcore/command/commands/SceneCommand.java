@@ -9,7 +9,7 @@ import emu.lunarcore.data.config.FloorInfo;
 import emu.lunarcore.data.excel.MazePlaneExcel;
 import emu.lunarcore.util.Utils;
 
-@Command(label = "scene", aliases = {"sc"}, permission = "player.scene", requireTarget = true, desc = "/scene [scene id] [floor id]. Teleports the player to the specified scene.")
+@Command(label = "scene", aliases = {"sc"}, permission = "player.scene", requireTarget = true, desc = "/scene [场景id] [楼层id]. 将玩家传送至指定场景。")
 public class SceneCommand implements CommandHandler {
 
     @Override
@@ -32,7 +32,7 @@ public class SceneCommand implements CommandHandler {
         // Get floor info
         FloorInfo floor = GameData.getFloorInfo(planeId, floorId);
         if (floor == null) {
-            args.sendMessage("Error: Floor info not found");
+            args.sendMessage("错误：楼层信息未找到。");
             return;
         }
         
@@ -41,7 +41,7 @@ public class SceneCommand implements CommandHandler {
         
         AnchorInfo anchor = floor.getAnchorInfo(startGroup, anchorId);
         if (anchor == null) {
-            args.sendMessage("Error: Floor info not found");
+            args.sendMessage("错误：楼层信息未找到。");
             return;
         }
         
@@ -50,7 +50,7 @@ public class SceneCommand implements CommandHandler {
         
         // Send packet
         if (success) {
-            args.sendMessage("Teleported player to " + planeId);
+            args.sendMessage("将玩家传送至 " + planeId);
         }
     }
 

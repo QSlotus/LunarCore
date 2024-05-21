@@ -42,9 +42,9 @@ public class GenderCommand implements CommandHandler {
             
             // Send packet and response message
             target.sendPacket(new PacketGetHeroBasicTypeInfoScRsp(target));
-            args.sendMessage("Gender for " + target.getName() + " set successfully");
+            args.sendMessage("设置" + target.getName() + "的主角性别成功。");
         } else {
-            args.sendMessage("Error: Invalid input");
+            args.sendMessage("错误：不合法的输入。");
         }
     }
 

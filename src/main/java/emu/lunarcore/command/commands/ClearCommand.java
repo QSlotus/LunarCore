@@ -51,7 +51,7 @@ public class ClearCommand implements CommandHandler {
         }
         
         args.getTarget().getInventory().removeItems(toRemove);
-        args.sendMessage("Removed " + toRemove.size() + " items");
+        args.sendMessage("移除了" + toRemove.size() + "个物品。");
     }
 
 }

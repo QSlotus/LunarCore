@@ -12,7 +12,7 @@ public class ReloadCommand implements CommandHandler {
     public void execute(CommandArgs args) {
         LunarCore.loadConfig();
         LunarCore.loadHotfixData();
-        args.sendMessage("Reloaded the server config");
+        args.sendMessage("已重载服务器设置");
     }
 
 }

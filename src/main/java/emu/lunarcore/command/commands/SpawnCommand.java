@@ -23,7 +23,7 @@ import emu.lunarcore.game.scene.entity.EntityProp;
 import emu.lunarcore.util.Position;
 import emu.lunarcore.util.Utils;
 
-@Command(label = "spawn", aliases = {"s"}, permission = "player.spawn", requireTarget = true, desc = "/spawn [局外怪物/道具 id] s[局内怪物id] x(数量) lv(等级) r(半径距离)  在玩家身边生成怪物。")
+@Command(label = "spawn", aliases = {"s"}, permission = "player.spawn", requireTarget = true, desc = "/spawn [局外怪物/道具 id] s[局内怪物id] x(数量) lv(等级) r(半径距离)  | /spawn [局外怪物id] x(数量) lv(等级) r(半径距离) <想要在局内发生战斗的怪物id，可以有多个，只能使用局外id，不能使用局内id>  在玩家身边生成怪物。")
 public class SpawnCommand implements CommandHandler {
     private static final Set<String> SEPARATORS = Set.of("/", "|", "\\");
     private int baseNpcMonsterId;

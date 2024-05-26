@@ -20,7 +20,7 @@ import emu.lunarcore.game.player.Player;
         aliases = {"ga"}, 
         permission = "player.give", 
         requireTarget = true, 
-        desc = "/giveall {materials | avatars | lightcones | relics | usables} lv(level). 给玩家所有指定物品。【materials 材料，avatars 角色，lightcones 光锥，relics 遗器，usables 道具】"
+        desc = "/giveall {materials | avatars | lightcones | relics | usables} lv(等级). 给玩家所有指定物品。【materials 材料，avatars 角色，lightcones 光锥，relics 遗器，usables 道具】"
 )
 public class GiveAllCommand implements CommandHandler {
 

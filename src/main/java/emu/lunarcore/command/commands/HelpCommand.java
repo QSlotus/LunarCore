@@ -17,6 +17,7 @@ public class HelpCommand implements CommandHandler {
         args.sendMessage("小括号 () 是可选填入的参数");
         args.sendMessage("--------------");
         args.sendMessage("指令生成工具：https://sr-tool.qiusyan.top，欢迎使用");
+        args.sendMessage("--------------");
         
         // Sort command names
         var labels = LunarCore.getCommandManager().getLabels().keySet().stream().sorted().toList();

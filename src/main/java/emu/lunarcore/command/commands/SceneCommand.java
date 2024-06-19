@@ -36,10 +36,7 @@ public class SceneCommand implements CommandHandler {
             return;
         }
         
-        int startGroup = floor.getStartGroupID();
-        int anchorId = floor.getStartAnchorID();
-        
-        AnchorInfo anchor = floor.getAnchorInfo(startGroup, anchorId);
+        AnchorInfo anchor = floor.getStartAnchorInfo();
         if (anchor == null) {
             args.sendMessage("错误：楼层信息未找到。");
             return;

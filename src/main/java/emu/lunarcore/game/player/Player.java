@@ -61,10 +61,12 @@ import emu.lunarcore.proto.HeadIconOuterClass.HeadIcon;
 import emu.lunarcore.proto.PlatformTypeOuterClass.PlatformType;
 import emu.lunarcore.proto.PlayerBasicInfoOuterClass.PlayerBasicInfo;
 import emu.lunarcore.proto.PlayerDetailInfoOuterClass.PlayerDetailInfo;
+import emu.lunarcore.proto.PlayerSyncScNotifyOuterClass.PlayerSyncScNotify;
 import emu.lunarcore.proto.RogueCurVirtualItemInfoOuterClass.RogueCurVirtualItemInfo;
 import emu.lunarcore.proto.SimpleInfoOuterClass.SimpleInfo;
 import emu.lunarcore.server.game.GameServer;
 import emu.lunarcore.server.game.GameSession;
+import emu.lunarcore.server.game.Syncable;
 import emu.lunarcore.server.game.Tickable;
 import emu.lunarcore.server.packet.BasePacket;
 import emu.lunarcore.server.packet.CmdId;
@@ -80,7 +82,7 @@ import us.hebi.quickbuf.RepeatedMessage;
 
 @Entity(value = "players", useDiscriminator = false)
 @Getter
-public class Player implements Tickable {
+public class Player implements Tickable, Syncable {
     @Id private int uid;
     @Indexed private String accountUid;
     private String name;
@@ -112,6 +114,7 @@ public class Player implements Tickable {
     private int planeId;
     private int floorId;
     private int entryId;
+    private int worldId;
     
     private long lastActiveTime;
     
@@ -479,17 +482,19 @@ public class Player implements Tickable {
         // Set new avatar path
         avatar.setMultiPath(path);
         
-        // Set current avatar path
-        this.getCurAvatarPaths().put(excel.getBaseAvatarID(), pathId);
-        
-        // Sync with client
-        this.sendPacket(new PacketPlayerSyncScNotify(path));
-        for (var item : avatar.getEquips().values()) {
-            this.sendPacket(new PacketPlayerSyncScNotify(item));
+        // Set gender if we are changing the main character
+        if (excel.getBaseAvatarID() == GameConstants.TRAILBLAZER_AVATAR_ID && excel.getGender() != null) {
+            this.gender = excel.getGender();
         }
         
-        this.sendPacket(new PacketAvatarPathChangedNotify(avatar, path));
+        // Set current avatar path and save to database
+        this.getCurAvatarPaths().put(excel.getBaseAvatarID(), pathId);
+        this.save();
 
+        // Sync with client
+        this.sendPacket(new PacketAvatarPathChangedNotify(avatar, path));
+        this.sendPacket(new PacketPlayerSyncScNotify(avatar));
+        
         // Success
         return pathId;
     }
@@ -798,6 +803,11 @@ public class Player implements Tickable {
             nextScene = new Scene(this, planeExcel, floorId);
         }
         
+        // Set world id
+        if (planeExcel.getPlaneType() == PlaneType.Town || planeExcel.getPlaneType() == PlaneType.Maze) {
+            this.worldId = planeExcel.getWorldID();
+        }
+        
         // Set player position
         this.getPos().set(pos);
         this.getRot().set(rot);
@@ -916,6 +926,11 @@ public class Player implements Tickable {
             this.challengeInstance = null;
         }
         
+        // Set default world id if we don't have it
+        if (this.worldId == 0) {
+            this.worldId = GameConstants.DEFAULT_WORLD_ID;
+        }
+        
         // Unstuck check, dont load player into raid scenes
         MazePlaneExcel planeExcel = GameData.getMazePlaneExcelMap().get(planeId);
         if (planeExcel == null || planeExcel.getPlaneType().getVal() >= PlaneType.Raid.getVal()) {
@@ -1011,6 +1026,12 @@ public class Player implements Tickable {
         } else {
             this.unlocks.setOwner(this);
         }
+    }
+    
+    // Player sync
+    
+    public void onSync(PlayerSyncScNotify proto) {
+        proto.setBasicInfo(this.toProto());
     }
     
     // Protobuf serialization

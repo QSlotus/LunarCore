@@ -5,7 +5,6 @@ import java.util.stream.Stream;
 
 import org.bson.types.ObjectId;
 
-import emu.lunarcore.GameConstants;
 import emu.lunarcore.LunarCore;
 import emu.lunarcore.data.GameData;
 import emu.lunarcore.data.excel.AvatarExcel;
@@ -43,8 +42,8 @@ public class AvatarStorage extends BasePlayerManager implements Iterable<GameAva
     
     // Base avatars
     
-    public IAvatar getBaseAvatarById(int id) {
-        IAvatar baseAvatar = this.getMultiPathById(id);
+    public BaseAvatar getBaseAvatarById(int id) {
+        BaseAvatar baseAvatar = this.getMultiPathById(id);
         if (baseAvatar == null) {
             baseAvatar = this.getAvatarById(id);
         }
@@ -52,8 +51,8 @@ public class AvatarStorage extends BasePlayerManager implements Iterable<GameAva
         return baseAvatar;
     }
     
-    public IAvatar getBaseAvatarById(ObjectId id) {
-        IAvatar baseAvatar = this.getMultiPathById(id);
+    public BaseAvatar getBaseAvatarById(ObjectId id) {
+        BaseAvatar baseAvatar = this.getMultiPathById(id);
         if (baseAvatar == null) {
             baseAvatar = this.getAvatarById(id);
         }
@@ -91,9 +90,17 @@ public class AvatarStorage extends BasePlayerManager implements Iterable<GameAva
             return false;
         }
         
-        // Dont add more than 1 main character
-        if (avatar.isHero() && this.hasAvatar(GameConstants.TRAILBLAZER_AVATAR_ID)) {
-            return false;
+        // Check if avatar has multiple paths
+        var pathExcel = GameData.getMultiplePathAvatarExcelMap().get(avatar.getAvatarId());
+        if (pathExcel != null) {
+            if (pathExcel.isDefault()) {
+                // Apply path to avatar
+                var path = this.getMultiPathById(avatar.getAvatarId());
+                avatar.setMultiPath(path);
+            } else {
+                // Skip if not a default path
+                return false;
+            }
         }
 
         // Set owner first
@@ -201,9 +208,15 @@ public class AvatarStorage extends BasePlayerManager implements Iterable<GameAva
             return false;
         }
         
-        // Set hero path
+        // Set excel data
         if (avatar.hasMultiPath()) {
-            avatar.setMultiPath(getPlayer().getCurAvatarPath(avatar.getAvatarId()));
+            // Get avatar's current path
+            var path = getPlayer().getCurAvatarPath(avatar.getAvatarId());
+            if (path == null) {
+                return false;
+            }
+            
+            avatar.setMultiPath(path);
         } else {
             // Load avatar excel data
             AvatarExcel excel = GameData.getAvatarExcelMap().get(avatar.getAvatarId());
